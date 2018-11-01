@@ -1,16 +1,26 @@
 // $color: red;
 
-#nav {
+// #nav {
+//   list-style: none;
+//   li {
+//   	display: inline;
+//   	margin: 1em;
+//   	background-color: #eee;
+//   	padding: 0.5em;
+//   	border-radius: 0.25em;
+//   	a {
+//   		color: #000;
+//   		text-decoration: none;
+//   	}
+//   }
+// }
+
+ul.movie-list {
   list-style: none;
   li {
-  	display: inline;
-  	margin: 1em;
-  	background-color: #eee;
-  	padding: 0.5em;
-  	border-radius: 0.25em;
-  	a {
-  		color: #000;
-  		text-decoration: none;
-  	}
+    clear: both;
+    img {
+      float: left;
+    }
   }
 }
