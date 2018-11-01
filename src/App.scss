@@ -15,6 +15,25 @@
 //   }
 // }
 
+header {
+  text-align: center;
+  input[type=checkbox] {
+    margin-left: 2em;
+  }
+}
+
+.pagination {
+  text-align: center;
+  i {
+    padding: 0 0.5em;
+    cursor: pointer;
+  }
+}
+
+.message {
+  color: red;
+}
+
 ul.movie-list {
   list-style: none;
   li {
