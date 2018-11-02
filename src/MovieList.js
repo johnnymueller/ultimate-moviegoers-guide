@@ -1,5 +1,5 @@
 import React from "react";
-import { BrowserRouter as Router, Route, Link } from "react-router-dom";
+import { Link } from "react-router-dom";
 const axios = require('axios');
 
 class MovieList extends React.Component {
@@ -116,17 +116,16 @@ function ListMovies(props) {
   const listItems = movies.map((movie) =>
     <li key={movie.id}>
       {('secure_base_url' in imageConfig && movie.poster_path) ? (
-        <img src={imageConfig.secure_base_url + imageConfig.poster_sizes[0] + movie.poster_path} alt={movie.title} />
+        <img className="poster" src={imageConfig.secure_base_url + imageConfig.poster_sizes[1] + movie.poster_path} alt={movie.title} />
       ) : (
-        <i className="fas fa-spinner"></i>
+        <i className="fas fa-image poster"></i>
       )}
-      <br />
-      {movie.title}<br />
-      Release Date: {movie.release_date}<br />
-      Average Vote: {movie.vote_average} / 10<br />
-      Popularity: {movie.popularity}<br />
-      {movie.overview}<br />
-      <Link to={'/movie/' + movie.id}>More Info</Link>
+      <h3>{movie.title}</h3>
+      <strong>Release Date:</strong> {movie.release_date}<br />
+      <strong>Average Vote:</strong> {movie.vote_average} / 10<br />
+      <strong>Popularity:</strong> {movie.popularity}<br />
+      <p>{movie.overview}</p>
+      <Link className="button" to={'/movie/' + movie.id}>More Info</Link>
     </li>
   );
   return (

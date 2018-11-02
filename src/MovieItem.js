@@ -81,22 +81,25 @@ class MovieItem extends React.Component {
     const movie = this.state.data;
 
     return (
-      <div>
-          {('secure_base_url' in imageConfig && movie.backdrop_path) ? (
-            <img src={imageConfig.secure_base_url + imageConfig.backdrop_sizes[1] + movie.backdrop_path} alt={movie.title} />
-          ) : (
-            <i className="fas fa-spinner"></i>
-          )}
+      <div className="movie-item">
+        {('secure_base_url' in imageConfig && movie.backdrop_path) &&
+          <img className="backdrop" src={imageConfig.secure_base_url + imageConfig.backdrop_sizes[2] + movie.backdrop_path} alt={movie.title} />
+        }
+        <div className="content">
           {('secure_base_url' in imageConfig && movie.poster_path) ? (
             <img src={imageConfig.secure_base_url + this.props.imageConfig.poster_sizes[1] + movie.poster_path} alt={movie.title} />
           ) : (
-            <i className="fas fa-spinner"></i>
+            <i className="fas fa-image poster"></i>
           )}
           <ul>
-            <li>Title: {this.state.data.title}</li>
-            <li>Tagline: {this.state.data.tagline}</li>
-            <li>Overview: {this.state.data.overview}</li>
-            <li>Budget: {this.formatMoney(this.state.data.budget)}</li>
+            <li><strong>Title:</strong> {this.state.data.title}</li>
+            <li><strong>Original Title:</strong> {this.state.data.original_title}</li>
+            <li><strong>Status:</strong> {this.state.data.status}</li>
+            <li><strong>Release Date:</strong> {this.state.data.release_date}</li>
+            <li><strong>Tagline:</strong> {this.state.data.tagline}</li>
+            <li><strong>Overview:</strong> {this.state.data.overview}</li>
+            <li><strong>Budget:</strong> {this.formatMoney(this.state.data.budget)}</li>
+            <li><strong>Revenue:</strong> {this.formatMoney(this.state.data.revenue)}</li>
             <li>
                 {/*<GenreList genres={this.state.response.genres} />*/}
                 {/*<li>Genres: {this.state.data.genres[0].name}</li>*/}
@@ -104,11 +107,10 @@ class MovieItem extends React.Component {
                   <li key={genre.id}>{genre.name}</li>
                 )*/}
             </li>
-            <li>Homepage: <a target="_blank" href={this.state.data.homepage}>{this.state.data.homepage}</a></li>
-            <li><a target="_blank" href={"https://www.imdb.com/title/" + this.state.data.imdb_id}>IMDb Link</a></li>
-            <li>Original Language: {this.state.data.original_language}</li>
-            <li>Original Title: {this.state.data.original_title}</li>
-            <li>Popularity: {this.state.data.popularity}</li>
+            <li><strong>Homepage:</strong> <a target="_blank"rel="noopener noreferrer" href={this.state.data.homepage}>{this.state.data.homepage}</a></li>
+            <li><a target="_blank"rel="noopener noreferrer" href={"https://www.imdb.com/title/" + this.state.data.imdb_id}>IMDb Link</a></li>
+            <li><strong>Original Language:</strong> {this.state.data.original_language}</li>
+            <li><strong>Popularity:</strong> {this.state.data.popularity}</li>
             <li>
               <ul>
                 {/*<li>Production Companies: {this.state.data.production_companies[0].name}</li>*/}
@@ -119,41 +121,39 @@ class MovieItem extends React.Component {
                 {/*<li>Production Countries: {this.state.data.production_countries[0].name}</li>*/}
               </ul>
             </li>
-            <li>Release Date: {this.state.data.release_date}</li>
-            <li>Revenue: {this.formatMoney(this.state.data.revenue)}</li>
-            <li>Runtime: {this.state.data.runtime} minutes</li>
+            <li><strong>Runtime:</strong> {this.state.data.runtime} minutes</li>
             <li>
               <ul>
                 {/*<li>Spoken Languages: {this.state.data.spoken_languages[0].name}</li>*/}
               </ul>
             </li>
-            <li>Status: {this.state.data.status}</li>
-            <li>Vote Average: {this.state.data.vote_average}</li>
-            <li>Vote Count: {this.state.data.vote_count}</li>
+            <li><strong>Vote Average:</strong> {this.state.data.vote_average}</li>
+            <li><strong>Vote Count:</strong> {this.state.data.vote_count}</li>
           </ul>
           <button
             className="button icon-left"
             onClick={this.goBack}>
-          Back
-      </button>
+              Back
+          </button>
+        </div>
       </div>
     );
   }
 }
 
-function GenreList(props) {
-  console.log('genres')
-  console.log(props)
-  const genres = props.genres;
-  const listItems = genres.map((genre) =>
-    // Correct! Key should be specified inside the array.
-    <li key={genre.id}>{genre.name}</li>
-  );
-  return (
-    <ul>
-      {listItems}
-    </ul>
-  );
-}
+// function GenreList(props) {
+//   console.log('genres')
+//   console.log(props)
+//   const genres = props.genres;
+//   const listItems = genres.map((genre) =>
+//     // Correct! Key should be specified inside the array.
+//     <li key={genre.id}>{genre.name}</li>
+//   );
+//   return (
+//     <ul>
+//       {listItems}
+//     </ul>
+//   );
+// }
 
 export default MovieItem;
