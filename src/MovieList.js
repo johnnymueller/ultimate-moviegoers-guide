@@ -6,6 +6,7 @@ class MovieList extends React.Component {
   constructor(props) {
     super(props);
     this.state = {
+    	loading: true,
       message: '',
       currentPage: 0,
       totalPages: 0,
@@ -64,6 +65,7 @@ class MovieList extends React.Component {
           this.setState({movies: response.data.results})
           this.setState({currentPage: response.data.page})
           this.setState({totalPages: response.data.total_pages})
+          this.setState({loading: false})
           // console.log("Image config:")
           // console.log(this.state.imageConfig)
         } else {
@@ -89,6 +91,9 @@ class MovieList extends React.Component {
   }
 
   render() {
+  	if (this.state.loading)
+  		return <div>Loading...</div>
+
     return (
       <div>
           <Pagination currentPage={this.state.currentPage} totalPages={this.state.totalPages} />
@@ -110,8 +115,8 @@ function ListMovies(props) {
   console.log(imageConfig)
   const listItems = movies.map((movie) =>
     <li key={movie.id}>
-      {('base_url' in imageConfig && movie.poster_path) ? (
-        <img src={imageConfig.base_url + imageConfig.poster_sizes[0] + movie.poster_path} alt={movie.title} />
+      {('secure_base_url' in imageConfig && movie.poster_path) ? (
+        <img src={imageConfig.secure_base_url + imageConfig.poster_sizes[0] + movie.poster_path} alt={movie.title} />
       ) : (
         <i className="fas fa-spinner"></i>
       )}

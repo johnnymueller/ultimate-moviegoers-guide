@@ -1,8 +1,7 @@
-// TODO: cache config
-// TODO: loaders for data
-// TODO: check prop setting
-// TODO: TMDb logo from config
-// Improvements: url filtering, offline (pwa), type ahead, use multi-search for actors as well
+// TODO: back with search and state with search
+// TODO: pagination
+// TODO: rendering lists
+// Improvements: type ahead, use multi-search for actors as well
 
 import React from "react";
 import { BrowserRouter as Router, Route, Link } from "react-router-dom";
@@ -17,27 +16,21 @@ class App extends React.Component {
     super(props);
     this.state = {
       search: '',
-      // message: '',
-      // currentPage: 0,
-      // totalPages: 0,
       imageConfig: {},
-      // movies: [],
-      // totalResults: 0,
     };
   }
 
   componentDidMount() {
+    // TODO: cache and check for updates every few days
+    // get image configuration
     axios.get('https://api.themoviedb.org/3/configuration', {
         params: {
           api_key: '4268bd97bf4cfe10c3797b864eef07b8',
         }
       })
       .then((response) => {
-        console.log(response);
         if (response.status === 200) {
           this.setState({imageConfig: response.data.images})
-          console.log("Image config:")
-          console.log(this.state.imageConfig)
         } else {
           console.log('error!');
         }
@@ -45,9 +38,6 @@ class App extends React.Component {
       .catch(function (error) {
         console.log(error);
       })
-      .then(function () {
-        // always executed
-      });
   }
 
   setSearch = (search) => {
@@ -71,7 +61,10 @@ class App extends React.Component {
           />
 
           <Route
-            path="/movie/:id" component={MovieItem} />
+            path="/movie/:id"
+            render={(props) => 
+              <MovieItem {...props} imageConfig={this.state.imageConfig} />}
+          />
 
           <Footer />
 
