@@ -101,31 +101,44 @@ class MovieItem extends React.Component {
             <li><strong>Budget:</strong> {this.formatMoney(this.state.data.budget)}</li>
             <li><strong>Revenue:</strong> {this.formatMoney(this.state.data.revenue)}</li>
             <li>
-                {/*<GenreList genres={this.state.response.genres} />*/}
-                {/*<li>Genres: {this.state.data.genres[0].name}</li>*/}
-                {/*this.state.data.genres.map((genre) =>
+                <strong>Genres:</strong>
+                <ul>
+                {this.state.data.genres.map((genre) =>
                   <li key={genre.id}>{genre.name}</li>
-                )*/}
+                )}
+                </ul>
             </li>
             <li><strong>Homepage:</strong> <a target="_blank"rel="noopener noreferrer" href={this.state.data.homepage}>{this.state.data.homepage}</a></li>
             <li><a target="_blank"rel="noopener noreferrer" href={"https://www.imdb.com/title/" + this.state.data.imdb_id}>IMDb Link</a></li>
             <li><strong>Original Language:</strong> {this.state.data.original_language}</li>
             <li><strong>Popularity:</strong> {this.state.data.popularity}</li>
             <li>
+              <strong>Production Companies:</strong>
               <ul>
-                {/*<li>Production Companies: {this.state.data.production_companies[0].name}</li>*/}
+                {this.state.data.production_companies.map((company) =>
+                  <li key={company.id}>{company.name}</li>
+                )}
               </ul>
+                {/*<li>Production Companies: {this.state.data.production_companies[0].name}</li>*/}
             </li>
             <li>
+              <strong>Production Countries:</strong>
               <ul>
-                {/*<li>Production Countries: {this.state.data.production_countries[0].name}</li>*/}
+                {this.state.data.production_countries.map((countries) =>
+                  <li key={countries.id}>{countries.name}</li>
+                )}
               </ul>
+                {/*<li>Production Countries: {this.state.data.production_countries[0].name}</li>*/}
             </li>
             <li><strong>Runtime:</strong> {this.state.data.runtime} minutes</li>
             <li>
+              <strong>Spoken Languages:</strong>
               <ul>
-                {/*<li>Spoken Languages: {this.state.data.spoken_languages[0].name}</li>*/}
+                {this.state.data.spoken_languages.map((languages) =>
+                  <li key={languages.id}>{languages.name}</li>
+                )}
               </ul>
+                {/*<li>Spoken Languages: {this.state.data.spoken_languages[0].name}</li>*/}
             </li>
             <li><strong>Vote Average:</strong> {this.state.data.vote_average}</li>
             <li><strong>Vote Count:</strong> {this.state.data.vote_count}</li>

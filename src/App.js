@@ -1,6 +1,5 @@
 // TODO: back with search and state with search
 // TODO: pagination
-// TODO: rendering lists
 // Improvements: type ahead, use multi-search for actors as well
 
 import React from "react";
