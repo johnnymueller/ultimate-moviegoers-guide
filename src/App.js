@@ -14,7 +14,7 @@ class App extends React.Component {
   constructor(props) {
     super(props);
     this.state = {
-      search: '',
+      // search: '',
       imageConfig: {},
     };
   }
@@ -39,9 +39,9 @@ class App extends React.Component {
       })
   }
 
-  setSearch = (search) => {
-    this.setState({search: search})
-  }
+  // setSearch = (search) => {
+  //   this.setState({search: search})
+  // }
 
   render() {
     return (
@@ -49,15 +49,22 @@ class App extends React.Component {
         <div>
           <Route
             render={(props) =>
-              <Header {...props} search={this.state.search} setSearch={this.setSearch} />}
+              <Header {...props} />}
           />
 
           <Route
             // path={["/users/:id", "/filter/:type"]}
             path="/movies/:type"
             render={(props) => 
-              <MovieList {...props} search={this.state.search} imageConfig={this.state.imageConfig} setSearch={this.setSearch} />}
+              <MovieList {...props} imageConfig={this.state.imageConfig} />}
           />
+
+          {/*<Route
+            // path={["/users/:id", "/filter/:type"]}
+            path="/search/:term"
+            render={(props) => 
+              <MovieList {...props} imageConfig={this.state.imageConfig} />}
+          />*/}
 
           <Route
             path="/movie/:id"

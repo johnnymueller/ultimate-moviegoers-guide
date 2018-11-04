@@ -11,18 +11,24 @@ class Header extends React.Component {
   }
 
   componentDidMount() {
-    const search = queryString.parse(this.props.location.search);
+    // const search = queryString.parse(this.props.location.search);
     // this.setState({search: search.query})
-    this.props.setSearch(search.query);
-    console.log(search);
+    // this.props.setSearch(search.query);
+    // console.log(search);
 
   }
 
-  componentDidUpdate(prevProps) {
-    const searchChanged = this.props.search !== prevProps.search;
-    if (searchChanged) {
-      this.setState({localSearch: this.props.search})
-    }
+  // componentDidUpdate(prevProps) {
+  componentWillReceiveProps(props) {
+    // const searchChanged = this.props.search !== prevProps.search;
+    // if (searchChanged) {
+      if (props.location.search) {
+        const search = queryString.parse(props.location.search);
+        this.setState({localSearch: search.query})
+      } else {
+        this.setState({localSearch: ''})
+      }
+    // }
   }
 
   handleKey = (event) => {
@@ -36,9 +42,11 @@ class Header extends React.Component {
   }
 
   doSearch = () => {
-    const history = this.props.history
-    history.push('/movies/search?query=' + this.state.localSearch);
-    this.props.setSearch(this.state.localSearch)
+    if (this.state.localSearch) {
+      const history = this.props.history
+      history.push('/movies/search?query=' + this.state.localSearch);
+    }
+    // this.props.setSearch(this.state.localSearch)
   }
 
   render() {

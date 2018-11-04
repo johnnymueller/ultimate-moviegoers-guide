@@ -1,5 +1,6 @@
 import React from "react";
 import { Link } from "react-router-dom";
+import queryString from 'query-string'
 const axios = require('axios');
 
 class MovieList extends React.Component {
@@ -14,13 +15,13 @@ class MovieList extends React.Component {
     };
   }
 
-  componentDidMount() {
-    this.getMovies();
-  }
+  // componentDidMount() {
+  //   this.getMovies();
+  // }
 
-  getMovies() {
+  getMovies(props) {
     console.log('getting movies')
-    console.log(this.props.match)
+    // console.log(this.props)
 
     let destination = 'discover/movie';
     let params = {
@@ -35,12 +36,12 @@ class MovieList extends React.Component {
     }
 
     // top rated
-    if (this.props.match.params.type === 'top-rated') {
+    if (props.match.params.type === 'top-rated') {
       params.certification_country = 'US';
       params.sort_by = 'vote_average.desc';
     }
     // in theater: primary_release_date.gte=2014-09-15&primary_release_date.lte=2014-10-22
-    if (this.props.match.params.type === 'now-playing') {
+    if (props.match.params.type === 'now-playing') {
       destination = 'movie/now_playing'
       delete params.sort_by
       // params.primary_release_date = {
@@ -48,19 +49,20 @@ class MovieList extends React.Component {
       //   lte: '',
       // };
     }
-    if (this.props.match.params.type === 'search') {
+    if (props.match.params.type === 'search') {
       destination = 'search/movie'
+      const search = queryString.parse(props.location.search);
       console.log('search:')
-      console.log(this.props)
-      params.query = this.props.search
-    } else {
-      this.props.setSearch('')
+      // console.log(search)
+      params.query = search.query
+    // } else {
+    //   this.props.setSearch('')
     }
 
     axios.get('https://api.themoviedb.org/3/' + destination, {params})
       .then((response) => {
         console.log('movies: ');
-        console.log(response.data.results);
+        // console.log(response.data.results);
         if (response.status === 200) {
           this.setState({movies: response.data.results})
           this.setState({currentPage: response.data.page})
@@ -80,14 +82,20 @@ class MovieList extends React.Component {
       });
   }
 
-  componentDidUpdate(prevProps) {
-    const locationChanged = this.props.location !== prevProps.location;
-    const searchChanged = this.props.search !== prevProps.search;
-    // console.log(locationChanged)
+  // componentDidUpdate(prevProps) {
+  //   const locationChanged = this.props.location !== prevProps.location;
+  //   const searchChanged = this.props.search !== prevProps.search;
+  //   // console.log(locationChanged)
 
-    if (locationChanged || searchChanged) {
-      this.getMovies();
-    }
+  //   if (locationChanged || searchChanged) {
+  //     this.getMovies();
+  //   }
+  // }
+
+  componentWillReceiveProps(props) {
+  	console.log('componentWillReceiveProps')
+  	// console.log(props)
+  	this.getMovies(props);
   }
 
   render() {
@@ -111,8 +119,6 @@ class MovieList extends React.Component {
 function ListMovies(props) {
   const movies = props.movies;
   const imageConfig = props.imageConfig;
-  console.log('imageConfig')
-  console.log(imageConfig)
   const listItems = movies.map((movie) =>
     <li key={movie.id}>
       {('secure_base_url' in imageConfig && movie.poster_path) ? (
