@@ -15,9 +15,10 @@ class MovieList extends React.Component {
     };
   }
 
-  // componentDidMount() {
-  //   this.getMovies();
-  // }
+  componentDidMount() {
+  	console.log('componentDidMount')
+    this.getMovies(this.props);
+  }
 
   getMovies(props) {
     console.log('getting movies')
@@ -49,14 +50,17 @@ class MovieList extends React.Component {
       //   lte: '',
       // };
     }
+    const search = queryString.parse(props.location.search);
     if (props.match.params.type === 'search') {
       destination = 'search/movie'
-      const search = queryString.parse(props.location.search);
       console.log('search:')
       // console.log(search)
       params.query = search.query
     // } else {
     //   this.props.setSearch('')
+    }
+    if (search.page) {
+    	params.page = search.page
     }
 
     axios.get('https://api.themoviedb.org/3/' + destination, {params})
@@ -83,19 +87,23 @@ class MovieList extends React.Component {
   }
 
   // componentDidUpdate(prevProps) {
-  //   const locationChanged = this.props.location !== prevProps.location;
-  //   const searchChanged = this.props.search !== prevProps.search;
-  //   // console.log(locationChanged)
+  // 	console.log('componentDidUpdate')
+    // const locationChanged = this.props.location !== prevProps.location;
+    // const searchChanged = this.props.search !== prevProps.search;
+    // // console.log(locationChanged)
 
-  //   if (locationChanged || searchChanged) {
-  //     this.getMovies();
-  //   }
+    // if (locationChanged || searchChanged) {
+    //   this.getMovies();
+    // }
   // }
 
   componentWillReceiveProps(props) {
   	console.log('componentWillReceiveProps')
   	// console.log(props)
-  	this.getMovies(props);
+  	// don't double fire with initial load
+  	if (!this.state.loading) {
+	  	this.getMovies(props)
+	  }
   }
 
   render() {
@@ -104,13 +112,13 @@ class MovieList extends React.Component {
 
     return (
       <div>
-          <Pagination currentPage={this.state.currentPage} totalPages={this.state.totalPages} />
+          <Pagination navigation={this.props} currentPage={this.state.currentPage} totalPages={this.state.totalPages} />
 
           <div className="message">{this.state.message}</div>
           
           <ListMovies movies={this.state.movies} imageConfig={this.props.imageConfig} />
 
-          <Pagination currentPage={this.state.currentPage} totalPages={this.state.totalPages} />
+          <Pagination navigation={this.props} currentPage={this.state.currentPage} totalPages={this.state.totalPages} />
       </div>
     );
   }
@@ -139,20 +147,51 @@ function ListMovies(props) {
   );
 }
 
-function Pagination(props) {
-  return (
-    <div className="pagination">
-      Page
-      {props.currentPage > 1 &&
-        <i className="fas fa-angle-left"></i>
-      }
-      {props.currentPage}
-      {props.currentPage < props.totalPages &&
-        <i className="fas fa-angle-right"></i>
-      }
-      of {props.totalPages}
-    </div>
-  );
+// function Pagination(props) {
+class Pagination extends React.Component {
+  constructor(props) {
+    super(props);
+    // this.state = {
+    // 	loading: true,
+    //   message: '',
+    //   currentPage: 0,
+    //   totalPages: 0,
+    //   movies: [],
+    // };
+  }
+
+  goToPage = (page) => {
+  	let currentPage = this.props.currentPage
+  	if (page === 'next') {
+  		page = currentPage + 1
+  	} else {
+  		page = currentPage - 1
+  	}
+
+		let search = queryString.parse(this.props.navigation.location.search)
+		search.page = page
+
+		let path = this.props.navigation.location.pathname
+		path = path + '?' + queryString.stringify(search)
+
+    const history = this.props.navigation.history
+    history.push(path);
+  }
+
+  render() {
+	  return (
+	    <div className="pagination">
+	      {this.props.currentPage > 1 &&
+	      	<div onClick={() => this.goToPage('prev')}><i className="fas fa-angle-left"></i> Previous</div>
+	      }
+	      &nbsp;
+	      {this.props.currentPage}
+	      {this.props.currentPage < this.props.totalPages &&
+	      	<div onClick={() => this.goToPage('next')}><i className="fas fa-angle-right"></i> Next</div>
+	      }&nbsp;of {this.props.totalPages}
+	    </div>
+	  );
+	}
 }
 
 export default MovieList;

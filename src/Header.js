@@ -24,7 +24,9 @@ class Header extends React.Component {
     // if (searchChanged) {
       if (props.location.search) {
         const search = queryString.parse(props.location.search);
-        this.setState({localSearch: search.query})
+        if ('query' in search) {
+          this.setState({localSearch: search.query})
+        }
       } else {
         this.setState({localSearch: ''})
       }
@@ -58,7 +60,7 @@ class Header extends React.Component {
           placeholder="Search by Title"
           name="search"
           type="text"
-          value={this.state.localSearch}
+          value={this.state.localSearch || ''}
           onChange={this.handleInputChange}
           onKeyUp={this.handleKey}
         />

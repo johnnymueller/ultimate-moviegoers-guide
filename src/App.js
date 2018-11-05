@@ -1,7 +1,3 @@
-// TODO: back with search and state with search
-// TODO: pagination
-// Improvements: type ahead, use multi-search for actors as well
-
 import React from "react";
 import { BrowserRouter as Router, Route } from "react-router-dom";
 import Header from './Header'

@@ -30,7 +30,7 @@ class MovieItem extends React.Component {
       // page: 1,
       // // ID: 12345
     }
-
+    setTimeout(() => {
     axios.get('https://api.themoviedb.org/3/' + destination, {params})
       .then((response) => {
         console.log('movies: ');
@@ -49,6 +49,7 @@ class MovieItem extends React.Component {
       .then(function () {
         // always executed
       });
+    }, 1500);
   }
 
   // componentDidUpdate(prevProps) {
@@ -92,12 +93,12 @@ class MovieItem extends React.Component {
             <i className="fas fa-image poster"></i>
           )}
           <ul>
-            <li><strong>Title:</strong> {this.state.data.title}</li>
-            <li><strong>Original Title:</strong> {this.state.data.original_title}</li>
-            <li><strong>Status:</strong> {this.state.data.status}</li>
-            <li><strong>Release Date:</strong> {this.state.data.release_date}</li>
-            <li><strong>Tagline:</strong> {this.state.data.tagline}</li>
-            <li><strong>Overview:</strong> {this.state.data.overview}</li>
+            <li><strong>Title:</strong> {this.state.data.title || 'N/A'}</li>
+            <li><strong>Original Title:</strong> {this.state.data.original_title || 'N/A'}</li>
+            <li><strong>Status:</strong> {this.state.data.status || 'N/A'}</li>
+            <li><strong>Release Date:</strong> {this.state.data.release_date || 'N/A'}</li>
+            <li><strong>Tagline:</strong> {this.state.data.tagline || 'N/A'}</li>
+            <li><strong>Overview:</strong> {this.state.data.overview || 'N/A'}</li>
             <li><strong>Budget:</strong> {this.formatMoney(this.state.data.budget)}</li>
             <li><strong>Revenue:</strong> {this.formatMoney(this.state.data.revenue)}</li>
             <li>
@@ -110,8 +111,8 @@ class MovieItem extends React.Component {
             </li>
             <li><strong>Homepage:</strong> <a target="_blank"rel="noopener noreferrer" href={this.state.data.homepage}>{this.state.data.homepage}</a></li>
             <li><a target="_blank"rel="noopener noreferrer" href={"https://www.imdb.com/title/" + this.state.data.imdb_id}>IMDb Link</a></li>
-            <li><strong>Original Language:</strong> {this.state.data.original_language}</li>
-            <li><strong>Popularity:</strong> {this.state.data.popularity}</li>
+            <li><strong>Original Language:</strong> {this.state.data.original_language || 'N/A'}</li>
+            <li><strong>Popularity:</strong> {this.state.data.popularity || 'N/A'}</li>
             <li>
               <strong>Production Companies:</strong>
               <ul>
@@ -119,29 +120,26 @@ class MovieItem extends React.Component {
                   <li key={company.id}>{company.name}</li>
                 )}
               </ul>
-                {/*<li>Production Companies: {this.state.data.production_companies[0].name}</li>*/}
             </li>
             <li>
               <strong>Production Countries:</strong>
               <ul>
                 {this.state.data.production_countries.map((countries) =>
-                  <li key={countries.id}>{countries.name}</li>
+                  <li key={countries.iso_3166_1}>{countries.name}</li>
                 )}
               </ul>
-                {/*<li>Production Countries: {this.state.data.production_countries[0].name}</li>*/}
             </li>
             <li><strong>Runtime:</strong> {this.state.data.runtime} minutes</li>
             <li>
               <strong>Spoken Languages:</strong>
               <ul>
                 {this.state.data.spoken_languages.map((languages) =>
-                  <li key={languages.id}>{languages.name}</li>
+                  <li key={languages.iso_639_1}>{languages.name}</li>
                 )}
               </ul>
-                {/*<li>Spoken Languages: {this.state.data.spoken_languages[0].name}</li>*/}
             </li>
-            <li><strong>Vote Average:</strong> {this.state.data.vote_average}</li>
-            <li><strong>Vote Count:</strong> {this.state.data.vote_count}</li>
+            <li><strong>Vote Average:</strong> {this.state.data.vote_average || 'N/A'}</li>
+            <li><strong>Vote Count:</strong> {this.state.data.vote_count || 'N/A'}</li>
           </ul>
           <button
             className="button icon-left"
