@@ -1,6 +1,3 @@
-// TODO: test on safari, ie, edge, win chrome, firefox (both)
-// TODO: missing data for item view
-
 import React from "react"
 import { BrowserRouter as Router, Route } from "react-router-dom"
 import Header from './Header'
@@ -35,7 +32,7 @@ class App extends React.Component {
           <Route component={Header} />
 
           <Route
-            path="/:type?"
+            path="/:type(|search|now-playing|top-rated)"
             render={(props) => 
               <MovieList {...props} imageConfig={this.state.imageConfig} />}
           />

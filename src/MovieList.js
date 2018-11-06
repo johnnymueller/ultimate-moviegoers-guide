@@ -60,14 +60,16 @@ class MovieList extends React.Component {
     .then((response) => {
 	    this.setState({movies: response.data.results})
 	    this.setState({currentPage: response.data.page})
-	    this.setState({totalPages: response.data.total_pages})
+	    const totalPages = (response.data.total_pages > 1000) ? 1000 : response.data.total_pages
+	    this.setState({totalPages: totalPages})
 	    this.setState({loading: false})
 	    if (response.data.total_results === 0) {
 	    	this.setState({message: "Sorry, no titles matched your search. Please try another."})
 	    }
     })
-    .catch(function (error) {
+    .catch((error) => {
     	this.setState({message: "Sorry, there was an error. Please try something else."})
+    	this.setState({loading: false})
       console.log(error)
     })
   }
