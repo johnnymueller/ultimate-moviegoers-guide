@@ -12,12 +12,3 @@ With the app you can:
 	* Top Rated movies
 * Search for a movie
 * View in depth details for each movie
-
-## Installation Instructions
-
-`
-git clone git@github.com:johnnymueller/ultimate-moviegoers-guide.git
-cd ultimate-moviegoers-guide
-npm install
-npm start
-`
