@@ -15,7 +15,7 @@ With the app you can:
 
 ## Installation Instructions
 
-`git clone git@github.com:johnnymueller/ultimate-moviegoers-guide.git`
-`cd ultimate-moviegoers-guide`
-`npm install`
-`npm start`
+```git clone git@github.com:johnnymueller/ultimate-moviegoers-guide.git
+cd ultimate-moviegoers-guide
+npm install
+npm start```
