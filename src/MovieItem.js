@@ -6,7 +6,28 @@ class MovieItem extends React.Component {
     super(props)
     this.state = {
       loading: true,
-      data: {}
+      data: {},
+      dataMap: {
+        title: {type: 'string'},
+        original_title: {type: 'string'},
+        status: {type: 'string'},
+        release_date: {type: 'string'},
+        tagline: {type: 'string'},
+        overview: {type: 'string'},
+        budget: {type: 'currency'},
+        revenue: {type: 'currency'},
+        genres: {type: 'list'},
+        homepage: {type: 'website'},
+        imdb_id: {type: 'imdb'},
+        original_language: {type: 'string'},
+        popularity: {type: 'string'},
+        production_companies: {type: 'list'},
+        production_countries: {type: 'list'},
+        runtime: {type: 'time'},
+        spoken_languages: {type: 'list'},
+        vote_average: {type: 'string'},
+        vote_count: {type: 'string'},
+      }
     }
   }
 
@@ -30,14 +51,6 @@ class MovieItem extends React.Component {
     this.props.history.goBack()
   }
 
-  formatMoney = (amount) => {
-    if (amount) {
-      return amount.toLocaleString('en-US', { style: 'currency', currency: 'USD' })
-    } else {
-      return 'N/A'
-    }
-  }
-
   render() {
     if (this.state.loading)
       return <div className="loading"><i className="fas fa-spinner fa-spin"></i></div>
@@ -56,55 +69,9 @@ class MovieItem extends React.Component {
           ) : (
             <i className="fas fa-image poster"></i>
           )}
-          <ul>
-            <li><strong>Title:</strong> {this.state.data.title || 'N/A'}</li>
-            <li><strong>Original Title:</strong> {this.state.data.original_title || 'N/A'}</li>
-            <li><strong>Status:</strong> {this.state.data.status || 'N/A'}</li>
-            <li><strong>Release Date:</strong> {this.state.data.release_date || 'N/A'}</li>
-            <li><strong>Tagline:</strong> {this.state.data.tagline || 'N/A'}</li>
-            <li><strong>Overview:</strong> {this.state.data.overview || 'N/A'}</li>
-            <li><strong>Budget:</strong> {this.formatMoney(this.state.data.budget)}</li>
-            <li><strong>Revenue:</strong> {this.formatMoney(this.state.data.revenue)}</li>
-            <li>
-                <strong>Genres:</strong>
-                <ul>
-                {this.state.data.genres.map((genre) =>
-                  <li key={genre.id}>{genre.name}</li>
-                )}
-                </ul>
-            </li>
-            <li><strong>Homepage:</strong> <a target="_blank"rel="noopener noreferrer" href={this.state.data.homepage}>{this.state.data.homepage}</a></li>
-            <li><a target="_blank"rel="noopener noreferrer" href={"https://www.imdb.com/title/" + this.state.data.imdb_id}>IMDb Link</a></li>
-            <li><strong>Original Language:</strong> {this.state.data.original_language || 'N/A'}</li>
-            <li><strong>Popularity:</strong> {this.state.data.popularity || 'N/A'}</li>
-            <li>
-              <strong>Production Companies:</strong>
-              <ul>
-                {this.state.data.production_companies.map((company) =>
-                  <li key={company.id}>{company.name}</li>
-                )}
-              </ul>
-            </li>
-            <li>
-              <strong>Production Countries:</strong>
-              <ul>
-                {this.state.data.production_countries.map((countries) =>
-                  <li key={countries.iso_3166_1}>{countries.name}</li>
-                )}
-              </ul>
-            </li>
-            <li><strong>Runtime:</strong> {this.state.data.runtime} minutes</li>
-            <li>
-              <strong>Spoken Languages:</strong>
-              <ul>
-                {this.state.data.spoken_languages.map((languages) =>
-                  <li key={languages.iso_639_1}>{languages.name}</li>
-                )}
-              </ul>
-            </li>
-            <li><strong>Vote Average:</strong> {this.state.data.vote_average || 'N/A'}</li>
-            <li><strong>Vote Count:</strong> {this.state.data.vote_count || 'N/A'}</li>
-          </ul>
+
+          <ItemDetails data={this.state.data} dataMap={this.state.dataMap} />
+          
           <button
             className="button icon-left"
             onClick={this.goBack}>
@@ -116,19 +83,68 @@ class MovieItem extends React.Component {
   }
 }
 
-// function GenreList(props) {
-//   console.log('genres')
-//   console.log(props)
-//   const genres = props.genres
-//   const listItems = genres.map((genre) =>
-//     // Correct! Key should be specified inside the array.
-//     <li key={genre.id}>{genre.name}</li>
-//   )
-//   return (
-//     <ul>
-//       {listItems}
-//     </ul>
-//   )
-// }
+class ItemDetails extends React.Component {
+  prettify(str) {
+    return str.replace(/(_|^)([^-]?)/g, function(_, prep, letter) {
+      return (prep && ' ') + letter.toUpperCase()
+    })
+  }
+
+  formatCurrency(amount) {
+    if (amount) {
+      return amount.toLocaleString('en-US', { style: 'currency', currency: 'USD' })
+    } else {
+      return 'N/A'
+    }
+  }
+
+  renderArray(array) {
+    return (
+      <ul>
+        {array.map(function(item) {
+          return <li key={item.name}>{item.name}</li>
+        })}
+      </ul>
+    )
+  }
+
+  render() {
+    const data = this.props.data
+    const dataMap = this.props.dataMap
+    
+    const listItems = Object.keys(dataMap).map((key) => {
+      let term = this.prettify(key)
+      let detail = ''
+      switch (dataMap[key].type) {
+        case 'string':
+          detail = data[key] || 'N/A'
+          break
+        case 'website':
+          detail = (data[key]) ? <a target="_blank"rel="noopener noreferrer" href={data[key]}>{data[key]}</a> : 'N/A'
+          break
+        case 'imdb':
+          detail = (data[key]) ? <a target="_blank"rel="noopener noreferrer" href={"https://www.imdb.com/title/" + data[key]}>{data[key]}</a> : 'N/A'
+          break
+        case 'currency':
+          detail = (data[key]) ? this.formatCurrency(data[key]) : 'N/A'
+          break
+        case 'list':
+          detail = (data[key].length > 0) ? this.renderArray(data[key]) : 'N/A'
+          break
+        default:
+          // handle unknown types
+          detail = 'N/A'
+      }
+
+      return <li key={term}><strong>{term}</strong>: {detail}</li>
+    })
+
+    return (
+      <ul>
+        {listItems}
+      </ul>
+    )
+  }
+}
 
 export default MovieItem

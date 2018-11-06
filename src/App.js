@@ -1,13 +1,10 @@
-// TODO:
-//   readme
-//   item view
 import React from "react"
 import { BrowserRouter as Router, Route } from "react-router-dom"
 import Header from './Header'
 import MovieList from './MovieList'
 import MovieItem from './MovieItem'
-import './App.scss';
 import ApiCall from './ApiCall'
+import './App.scss';
 
 class App extends React.Component {
   constructor(props) {
