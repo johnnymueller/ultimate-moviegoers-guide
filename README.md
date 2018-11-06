@@ -2,7 +2,7 @@
 
 ## Demo Site
 
-[https://johnnymueller.github.io/ultimate-moviegoers-guide/](https://johnnymueller.github.io/ultimate-moviegoers-guide/)
+[http://cleave.co/ultimate-moviegoers-guide/](http://cleave.co/ultimate-moviegoers-guide/)
 
 ## Overview
 
