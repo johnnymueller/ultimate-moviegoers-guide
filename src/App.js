@@ -27,7 +27,7 @@ class App extends React.Component {
 
   render() {
     return (
-      <Router basename={'ultimate-moviegoers-guide'}>
+      <Router>
         <div>
           <Route component={Header} />
 
