@@ -1,7 +1,7 @@
+
 const axios = require('axios')
 
-const Api = (endpoint, params={}) => {
-	console.log('calling api')
+const ApiCall = (endpoint, params={}) => {
 	return new Promise((resolve, reject) => {
 		if (!endpoint)
 			reject('You must provide and API endpoint.')
@@ -22,4 +22,4 @@ const Api = (endpoint, params={}) => {
 	})
 }
 
-export default Api
+export default ApiCall

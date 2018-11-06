@@ -1,5 +1,5 @@
 import React from "react"
-import Api from './Api'
+import ApiCall from './ApiCall'
 
 class MovieItem extends React.Component {
   constructor(props) {
@@ -15,12 +15,8 @@ class MovieItem extends React.Component {
   }
 
   getMovie() {
-    console.log('getting movie')
-    console.log('this.props')
-    console.log(this.props)
-
     const endpoint = 'movie/' + this.props.match.params.id
-    Api(endpoint)
+    ApiCall(endpoint)
     .then((response) => {
       this.setState({data: response.data})
       this.setState({loading: false})
@@ -29,16 +25,6 @@ class MovieItem extends React.Component {
       console.log(error)
     })
   }
-
-  // componentDidUpdate(prevProps) {
-  //   const locationChanged = this.props.location !== prevProps.location
-  //   const searchChanged = this.props.search !== prevProps.search
-  //   // console.log(locationChanged)
-
-  //   if (locationChanged || searchChanged) {
-  //     this.getMovie()
-  //   }
-  // }
 
   goBack = () => {
     this.props.history.goBack()

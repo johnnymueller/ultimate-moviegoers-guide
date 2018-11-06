@@ -19,11 +19,11 @@ const Pagination = class Pagination extends React.Component {
   			page = 1
   	}
 
-		let search = queryString.parse(this.props.navigation.location.search)
-		search.page = page
+	let search = queryString.parse(this.props.navigation.location.search)
+	search.page = page
 
-		const pathname = this.props.navigation.location.pathname
-		const destination = pathname + '?' + queryString.stringify(search)
+	const pathname = this.props.navigation.location.pathname
+	const destination = pathname + '?' + queryString.stringify(search)
 
     const history = this.props.navigation.history
     history.push(destination)
@@ -42,8 +42,7 @@ const Pagination = class Pagination extends React.Component {
 					</span>	      	
 	      }
 
-	      &nbsp;
-	      {this.props.currentPage}
+	      &nbsp; {this.props.currentPage}
 	      &nbsp; of {this.props.totalPages}
 
 	      {this.props.currentPage < this.props.totalPages &&

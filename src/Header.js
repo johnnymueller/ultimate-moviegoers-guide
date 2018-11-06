@@ -10,26 +10,15 @@ class Header extends React.Component {
     }
   }
 
-  // componentDidMount() {
-    // const search = queryString.parse(this.props.location.search)
-    // this.setState({search: search.query})
-    // this.props.setSearch(search.query)
-    // console.log(search)
-  // }
-
-  // componentDidUpdate(prevProps) {
   componentWillReceiveProps(props) {
-    // const searchChanged = this.props.search !== prevProps.search
-    // if (searchChanged) {
-      if (props.location.search) {
-        const search = queryString.parse(props.location.search)
-        if ('query' in search) {
-          this.setState({localSearch: search.query})
-        }
-      } else {
-        this.setState({localSearch: ''})
+    if (props.location.search) {
+      const search = queryString.parse(props.location.search)
+      if ('query' in search) {
+        this.setState({localSearch: search.query})
       }
-    // }
+    } else {
+      this.setState({localSearch: ''})
+    }
   }
 
   handleKey = (event) => {
@@ -47,7 +36,6 @@ class Header extends React.Component {
       const history = this.props.history
       history.push('/search?query=' + this.state.localSearch)
     }
-    // this.props.setSearch(this.state.localSearch)
   }
 
   render() {
@@ -66,7 +54,7 @@ class Header extends React.Component {
         <i className="fas fa-search search-button" onClick={() => this.doSearch()}></i>
         <br />
 
-        <NavLink className="button" activeClassName="selected" to="/popular">Popular</NavLink>
+        <NavLink className="button" activeClassName="selected" to="/" exact>Popular</NavLink>
         <NavLink className="button" activeClassName="selected" to="/now-playing">Now Playing</NavLink>
         <NavLink className="button" activeClassName="selected" to="/top-rated">Top Rated</NavLink>
 

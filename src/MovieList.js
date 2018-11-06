@@ -1,7 +1,7 @@
 import React from "react"
 import { Link } from "react-router-dom"
 import queryString from 'query-string'
-import Api from './Api'
+import ApiCall from './ApiCall'
 import Pagination from './Pagination'
 
 class MovieList extends React.Component {
@@ -9,7 +9,7 @@ class MovieList extends React.Component {
     super(props)
     this.state = {
     	loading: false,
-      message: 'Welcome to The Ultimate Moviegoers Guide! Use the controls above to discover.',
+      message: '',
       currentPage: 0,
       totalPages: 0,
       movies: [],
@@ -21,7 +21,6 @@ class MovieList extends React.Component {
   }
 
   getMovies(props) {
-  	console.log('Getting movies...')
     this.setState({loading: true})
     this.setState({message: ''})
 
@@ -57,7 +56,7 @@ class MovieList extends React.Component {
     	params.page = search.page
     }
 
-    Api(endpoint, params)
+    ApiCall(endpoint, params)
     .then((response) => {
 	    this.setState({movies: response.data.results})
 	    this.setState({currentPage: response.data.page})
@@ -73,20 +72,7 @@ class MovieList extends React.Component {
     })
   }
 
-  // componentDidUpdate(prevProps) {
-  // 	console.log('componentDidUpdate')
-    // const locationChanged = this.props.location !== prevProps.location
-    // const searchChanged = this.props.search !== prevProps.search
-    // // console.log(locationChanged)
-
-    // if (locationChanged || searchChanged) {
-    //   this.getMovies()
-    // }
-  // }
-
   componentWillReceiveProps(props) {
-  	console.log('componentWillReceiveProps')
-  	// console.log(props)
   	// don't double fire with initial load
   	if (!this.state.loading) {
 	  	this.getMovies(props)

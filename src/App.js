@@ -7,7 +7,7 @@ import Header from './Header'
 import MovieList from './MovieList'
 import MovieItem from './MovieItem'
 import './App.scss';
-import Api from './Api'
+import ApiCall from './ApiCall'
 
 class App extends React.Component {
   constructor(props) {
@@ -19,7 +19,7 @@ class App extends React.Component {
 
   componentDidMount() {
     // get image configuration
-    Api('configuration')
+    ApiCall('configuration')
     .then((response) => {
       this.setState({imageConfig: response.data.images})
     })
@@ -35,8 +35,7 @@ class App extends React.Component {
           <Route component={Header} />
 
           <Route
-            // path={["/users/:id", "/filter/:type"]}
-            path="/:type"
+            path="/:type?"
             render={(props) => 
               <MovieList {...props} imageConfig={this.state.imageConfig} />}
           />
