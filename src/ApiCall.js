@@ -1,4 +1,5 @@
-
+const ES6Promise = require("es6-promise")
+ES6Promise.polyfill()
 const axios = require('axios')
 
 const ApiCall = (endpoint, params={}) => {
