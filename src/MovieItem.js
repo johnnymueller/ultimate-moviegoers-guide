@@ -1,17 +1,17 @@
-import React from "react";
-const axios = require('axios');
+import React from "react"
+import Api from './Api'
 
 class MovieItem extends React.Component {
   constructor(props) {
-    super(props);
+    super(props)
     this.state = {
       loading: true,
       data: {}
-    };
+    }
   }
 
   componentDidMount() {
-    this.getMovie();
+    this.getMovie()
   }
 
   getMovie() {
@@ -19,46 +19,24 @@ class MovieItem extends React.Component {
     console.log('this.props')
     console.log(this.props)
 
-    let destination = 'movie/' + this.props.match.params.id;
-    let params = {
-      api_key: '4268bd97bf4cfe10c3797b864eef07b8',
-      // language: 'en-US',
-      // sort_by: 'popularity.desc', // popular
-      // include_adult: false,
-      // include_video: false,
-      // // with_genres: 878,
-      // page: 1,
-      // // ID: 12345
-    }
-    setTimeout(() => {
-    axios.get('https://api.themoviedb.org/3/' + destination, {params})
-      .then((response) => {
-        console.log('movies: ');
-        console.log(response.data);
-        if (response.status === 200) {
-          console.log(response)
-          this.setState({data: response.data})
-          this.setState({loading: false})
-        } else {
-          console.log('error!');
-        }
-      })
-      .catch(function (error) {
-        console.log(error);
-      })
-      .then(function () {
-        // always executed
-      });
-    }, 1500);
+    const endpoint = 'movie/' + this.props.match.params.id
+    Api(endpoint)
+    .then((response) => {
+      this.setState({data: response.data})
+      this.setState({loading: false})
+    })
+    .catch(function (error) {
+      console.log(error)
+    })
   }
 
   // componentDidUpdate(prevProps) {
-  //   const locationChanged = this.props.location !== prevProps.location;
-  //   const searchChanged = this.props.search !== prevProps.search;
+  //   const locationChanged = this.props.location !== prevProps.location
+  //   const searchChanged = this.props.search !== prevProps.search
   //   // console.log(locationChanged)
 
   //   if (locationChanged || searchChanged) {
-  //     this.getMovie();
+  //     this.getMovie()
   //   }
   // }
 
@@ -68,18 +46,18 @@ class MovieItem extends React.Component {
 
   formatMoney = (amount) => {
     if (amount) {
-      return amount.toLocaleString('en-US', { style: 'currency', currency: 'USD' });
+      return amount.toLocaleString('en-US', { style: 'currency', currency: 'USD' })
     } else {
-      return 'N/A';
+      return 'N/A'
     }
   }
 
   render() {
     if (this.state.loading)
-      return <div>Loading...</div>
+      return <div className="loading"><i className="fas fa-spinner fa-spin"></i></div>
 
-    const imageConfig = this.props.imageConfig;
-    const movie = this.state.data;
+    const imageConfig = this.props.imageConfig
+    const movie = this.state.data
 
     return (
       <div className="movie-item">
@@ -88,7 +66,7 @@ class MovieItem extends React.Component {
         }
         <div className="content">
           {('secure_base_url' in imageConfig && movie.poster_path) ? (
-            <img src={imageConfig.secure_base_url + this.props.imageConfig.poster_sizes[1] + movie.poster_path} alt={movie.title} />
+            <img src={imageConfig.secure_base_url + this.props.imageConfig.poster_sizes[3] + movie.poster_path} alt={movie.title} className="poster" />
           ) : (
             <i className="fas fa-image poster"></i>
           )}
@@ -148,23 +126,23 @@ class MovieItem extends React.Component {
           </button>
         </div>
       </div>
-    );
+    )
   }
 }
 
 // function GenreList(props) {
 //   console.log('genres')
 //   console.log(props)
-//   const genres = props.genres;
+//   const genres = props.genres
 //   const listItems = genres.map((genre) =>
 //     // Correct! Key should be specified inside the array.
 //     <li key={genre.id}>{genre.name}</li>
-//   );
+//   )
 //   return (
 //     <ul>
 //       {listItems}
 //     </ul>
-//   );
+//   )
 // }
 
-export default MovieItem;
+export default MovieItem

@@ -1,29 +1,28 @@
-import React from "react";
+import React from "react"
 import queryString from 'query-string'
-import { NavLink } from "react-router-dom";
+import { NavLink } from "react-router-dom"
 
 class Header extends React.Component {
   constructor(props) {
-    super(props);
+    super(props)
     this.state = {
       localSearch: '',
-    };
+    }
   }
 
-  componentDidMount() {
-    // const search = queryString.parse(this.props.location.search);
+  // componentDidMount() {
+    // const search = queryString.parse(this.props.location.search)
     // this.setState({search: search.query})
-    // this.props.setSearch(search.query);
-    // console.log(search);
-
-  }
+    // this.props.setSearch(search.query)
+    // console.log(search)
+  // }
 
   // componentDidUpdate(prevProps) {
   componentWillReceiveProps(props) {
-    // const searchChanged = this.props.search !== prevProps.search;
+    // const searchChanged = this.props.search !== prevProps.search
     // if (searchChanged) {
       if (props.location.search) {
-        const search = queryString.parse(props.location.search);
+        const search = queryString.parse(props.location.search)
         if ('query' in search) {
           this.setState({localSearch: search.query})
         }
@@ -35,18 +34,18 @@ class Header extends React.Component {
 
   handleKey = (event) => {
     if (event.which === 13) {
-      this.doSearch();
+      this.doSearch()
     }
   }
 
   handleInputChange = (event) => {
-    this.setState({localSearch: event.target.value});
+    this.setState({localSearch: event.target.value})
   }
 
   doSearch = () => {
     if (this.state.localSearch) {
       const history = this.props.history
-      history.push('/movies/search?query=' + this.state.localSearch);
+      history.push('/search?query=' + this.state.localSearch)
     }
     // this.props.setSearch(this.state.localSearch)
   }
@@ -67,13 +66,13 @@ class Header extends React.Component {
         <i className="fas fa-search search-button" onClick={() => this.doSearch()}></i>
         <br />
 
-        <NavLink className="button" activeClassName="selected" to="/movies/popular">Popular</NavLink>
-        <NavLink className="button" activeClassName="selected" to="/movies/now-playing">Now Playing</NavLink>
-        <NavLink className="button" activeClassName="selected" to="/movies/top-rated">Top Rated</NavLink>
+        <NavLink className="button" activeClassName="selected" to="/popular">Popular</NavLink>
+        <NavLink className="button" activeClassName="selected" to="/now-playing">Now Playing</NavLink>
+        <NavLink className="button" activeClassName="selected" to="/top-rated">Top Rated</NavLink>
 
       </header>
-    );
+    )
   }
 }
 
-export default Header;
+export default Header

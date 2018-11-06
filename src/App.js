@@ -1,66 +1,45 @@
-import React from "react";
-import { BrowserRouter as Router, Route } from "react-router-dom";
+// TODO: test on safari, ie, edge, win chrome, firefox (both)
+// TODO: missing data for item view
+
+import React from "react"
+import { BrowserRouter as Router, Route } from "react-router-dom"
 import Header from './Header'
 import MovieList from './MovieList'
 import MovieItem from './MovieItem'
 import './App.scss';
-const axios = require('axios');
+import Api from './Api'
 
 class App extends React.Component {
   constructor(props) {
     super(props);
     this.state = {
-      // search: '',
       imageConfig: {},
     };
   }
 
   componentDidMount() {
-    // TODO: cache and check for updates every few days
     // get image configuration
-    axios.get('https://api.themoviedb.org/3/configuration', {
-        params: {
-          api_key: '4268bd97bf4cfe10c3797b864eef07b8',
-        }
-      })
-      .then((response) => {
-        if (response.status === 200) {
-          this.setState({imageConfig: response.data.images})
-        } else {
-          console.log('error!');
-        }
-      })
-      .catch(function (error) {
-        console.log(error);
-      })
+    Api('configuration')
+    .then((response) => {
+      this.setState({imageConfig: response.data.images})
+    })
+    .catch(function (error) {
+      console.log(error)
+    })
   }
-
-  // setSearch = (search) => {
-  //   this.setState({search: search})
-  // }
 
   render() {
     return (
       <Router>
         <div>
-          <Route
-            render={(props) =>
-              <Header {...props} />}
-          />
+          <Route component={Header} />
 
           <Route
             // path={["/users/:id", "/filter/:type"]}
-            path="/movies/:type"
+            path="/:type"
             render={(props) => 
               <MovieList {...props} imageConfig={this.state.imageConfig} />}
           />
-
-          {/*<Route
-            // path={["/users/:id", "/filter/:type"]}
-            path="/search/:term"
-            render={(props) => 
-              <MovieList {...props} imageConfig={this.state.imageConfig} />}
-          />*/}
 
           <Route
             path="/movie/:id"
@@ -83,6 +62,6 @@ const Footer = () => (
       alt="TMDb Logo"
     />
   </footer>
-);
+)
 
-export default App;
+export default App

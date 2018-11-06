@@ -2,6 +2,7 @@ $dark: #2d292c;
 $orange: #b24626;
 $offWhite: #dfdcdb;
 $lightGray: #d9d5d5;
+$radius: 0.5em;
 
 // #nav {
 //   list-style: none;
@@ -34,6 +35,13 @@ a { color: $dark; }
   display: inline-block;
   font-size: 1em;
   border: none;
+}
+
+.loading {
+  text-align: center;
+  font-size: 4em;
+  margin: 2em;
+
 }
 
 header {
@@ -69,7 +77,12 @@ header {
 }
 
 .message {
-  color: red;
+  text-align: center;
+  padding: 2em;
+  background-color: $lightGray;
+  width: 50%;
+  margin: 1em auto;
+  border-radius: $radius;
 }
 
 .poster {
@@ -92,7 +105,7 @@ ul.movie-list {
     clear: both;
     margin: 1em;
     background-color: $lightGray;
-    border-radius: 0.5em;
+    border-radius: $radius;
     min-height: 14.5em;
     padding: 1em;
     h3 {
@@ -105,15 +118,26 @@ ul.movie-list {
   width: 90%;
   margin: 0 auto;
   background-color: $lightGray;
-  border-radius: 0.5em;
+  border-radius: $radius;
   position: relative;
   padding: 1em;
   overflow: hidden;
+  .poster {
+    float: none;
+    width: 342px;
+    height: 513px;
+    margin: 0 auto;
+    display: block;
+    line-height: 15em;
+  }
   .content {
     position: relative;
   }
+  li {
+    margin: 0.15em 0;
+  }
   .backdrop {
-    width: 100%;
+    width: auto;
     opacity: 0.15;
     position: absolute;
     top: 0;
@@ -125,4 +149,17 @@ ul.movie-list {
 footer {
   text-align: center;
   margin: 2em;
+}
+
+@media all and (min-width: 1300px) {
+.movie-item .backdrop { width: 100%; }
+}
+
+@media all and (min-width: 800px) {
+.movie-item {
+  .poster {
+    float: right;
+    margin: 0 0 1em 1em;
+  }
+}
 }
