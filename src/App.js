@@ -1,3 +1,6 @@
+// TODO:
+//   readme
+//   item view
 import React from "react"
 import { BrowserRouter as Router, Route } from "react-router-dom"
 import Header from './Header'
@@ -27,7 +30,7 @@ class App extends React.Component {
 
   render() {
     return (
-      <Router>
+      <Router basename={'ultimate-moviegoers-guide'}>
         <div>
           <Route component={Header} />
 
